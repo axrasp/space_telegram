@@ -10,9 +10,9 @@ from pathlib import Path
 
 def publish_text_to_channel(text: str):
     telegram_token = os.getenv("BOT_API")
-    bot = telegram.Bot(token=telegram_token)
     chat_id = os.getenv("CHAT_ID")
-    bot.send_message(text=text, chat_id=chat_id)
+    bot = telegram.Bot(token=telegram_token)
+    bot.send_message(chat_id=chat_id, text="I'm a bot, please talk to me!")
 
 
 def get_epic_photo(path: str, token: str):
