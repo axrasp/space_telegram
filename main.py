@@ -1,5 +1,7 @@
 import datetime
 import os
+import time
+
 import requests
 import telegram
 
@@ -19,11 +21,15 @@ def publish_photo_to_channel(path: str):
     telegram_token = os.getenv("BOT_API")
     chat_id = os.getenv("CHAT_ID")
     bot = telegram.Bot(token=telegram_token)
-    downloaded_photos = os.listdir(path)
-    bot.send_photo(chat_id=chat_id, photo=open(f'{path}/{downloaded_photos[-1]}', 'rb'))
+    for root, dirs, files in os.walk(path, topdown=False):
+        for name in files:
+            #Отправляем фотки по одной
+            bot.send_photo(chat_id=chat_id, photo=open(os.path.join(root, name), 'rb'))
+            #Удаляем фотку после отправки, чтобы не засорять папку (фотки немаленькие)
+            os.remove(os.path.join(root, name))
 
 
-def get_epic_photo(path: str, token: str):
+def get_epic_nasa_photo(path: str, token: str):
 
     def get_epic_photo_data():
         api_url = "https://api.nasa.gov/EPIC/api/natural/images"
@@ -55,12 +61,17 @@ def get_epic_photo(path: str, token: str):
 
 
 def main():
+    image_folder = os.getenv("IMAGE_FOLDER")
     epic_file_path = os.getenv("EPIC_FILE_PATH")
     nasa_api_key = os.getenv("NASA_API_KEY")
     message = os.getenv("MESSAGE")
-    get_epic_photo(path=epic_file_path, token=nasa_api_key)
-    publish_text_to_channel(text=message)
-    publish_photo_to_channel(path=epic_file_path)
+    delay = os.getenv("TIMER")
+    go = True
+    while go:
+        get_epic_nasa_photo(path=epic_file_path, token=nasa_api_key)
+        publish_text_to_channel(text=message)
+        publish_photo_to_channel(path=image_folder)
+        time.sleep(delay)
 
 
 if __name__ == "__main__":
