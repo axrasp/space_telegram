@@ -15,6 +15,14 @@ def publish_text_to_channel(text: str):
     bot.send_message(chat_id=chat_id, text=text)
 
 
+def publish_photo_to_channel(path: str):
+    telegram_token = os.getenv("BOT_API")
+    chat_id = os.getenv("CHAT_ID")
+    bot = telegram.Bot(token=telegram_token)
+    downloaded_photos = os.listdir(path)
+    bot.send_photo(chat_id=chat_id, photo=open(f'{path}/{downloaded_photos[-1]}', 'rb'))
+
+
 def get_epic_photo(path: str, token: str):
 
     def get_epic_photo_data():
@@ -41,7 +49,7 @@ def get_epic_photo(path: str, token: str):
             file.write(response.content)
 
     for photo_name, date in get_epic_photo_data().items():
-        file_name = f"nasa_apod{photo_name}.png"
+        file_name = f"{photo_name}.png"
         url = f"https://api.nasa.gov/EPIC/archive/natural/{date}/png/{photo_name}.png"
         save_photo(url=url, file_name=file_name)
 
@@ -52,6 +60,7 @@ def main():
     message = os.getenv("MESSAGE")
     get_epic_photo(path=epic_file_path, token=nasa_api_key)
     publish_text_to_channel(text=message)
+    publish_photo_to_channel(path=epic_file_path)
 
 
 if __name__ == "__main__":
