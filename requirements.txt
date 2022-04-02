@@ -1,5 +1,4 @@
 python-dotenv==0.9.1
 requests==2.27.1
 datetime==4.4
-telegram==pip
 python-telegram-bot==13.11
