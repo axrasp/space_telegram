@@ -24,10 +24,11 @@ pip install -r requirements.txt
 NASA_API_KEY = "sHMo00RbYXY2hVCqs8t3GFaQDoFLij4EA8DPgpbR"
 ```
 
-Для изменения пути размещения папки с EPIC-фото NASA, поменяйте значение переменной ``EPIC_FILE_PATH`` на другой путь, также добавьте файл с указанием пути к папке с изображениями:
+Для изменения пути размещения папки с EPIC-фото NASA (и фотогарфий APOD), поменяйте значение переменной ``EPIC_FILE_PATH`` на другой путь, также добавьте файл с указанием пути к папке с изображениями:
 ```python
 IMAGE_FOLDER = "images"
 EPIC_FILE_PATH = "images/epic"
+NASA_APOD_PATH = "images/apod"
 ```
 
 **ВНИМАНИЕ** 
@@ -60,7 +61,7 @@ TIMER = 86400
 ```
 
 **ВНИМАНИЕ**
-Фотографии удаляются из папок после публикации
+Фотографии удаляются из папок после публикации, если раскомментировать указанную строку
 
 ```python
 def publish_photo_to_channel(path: str):
@@ -71,8 +72,8 @@ def publish_photo_to_channel(path: str):
         for name in files:
             #Отправляем фотки по одной
             bot.send_photo(chat_id=chat_id, photo=open(os.path.join(root, name), 'rb'))
-            #Удаляем фотку после отправки, чтобы не засорять папку (фотки немаленькие)
-            os.remove(os.path.join(root, name))
+            #уберите комментарий следующей строки, чтобы автоматически удалять фотки после отправки, чтобы не засорять папку (фотки немаленькие)
+            #os.remove(os.path.join(root, name))
 ```
 
 ### Запуск кода:
