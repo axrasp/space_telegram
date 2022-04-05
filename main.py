@@ -123,6 +123,7 @@ def save_epic_photos(photos_name_date, path: str, token: str):
 
 
 def main():
+    load_dotenv()
     chat_id = os.getenv("CHAT_ID")
     telegram_token = os.getenv("BOT_API")
     delete_images = bool(os.getenv("DELETE_AFTER_SEND"))
@@ -143,5 +144,4 @@ def main():
 
 
 if __name__ == "__main__":
-    load_dotenv()
     main()
