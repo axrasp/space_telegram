@@ -132,8 +132,7 @@ def main():
     epic_file_path = os.getenv("EPIC_FILE_PATH")
     message = os.getenv("MESSAGE")
     delay = os.getenv("TIMER")
-    go = True
-    while go:
+    while True:
         fetch_spacex_last_launch(path=image_folder)
         get_nasa_apod_photo(path=nasa_apod_image_path, token=nasa_api_key)
         get_epic_nasa_photo(path=epic_file_path, token=nasa_api_key)
