@@ -60,20 +60,9 @@ MESSAGE="Hello"
 TIMER=86400
 ```
 
-**ВНИМАНИЕ**
-Фотографии удаляются из папок после публикации, если раскомментировать указанную строку
-
+Для удаления фотографии из папки после публикации есть настройка 
 ```python
-def publish_photo_to_channel(path: str):
-    telegram_token = os.getenv("BOT_API")
-    chat_id = os.getenv("CHAT_ID")
-    bot = telegram.Bot(token=telegram_token)
-    for root, dirs, files in os.walk(path, topdown=False):
-        for name in files:
-            #Отправляем фотки по одной
-            bot.send_photo(chat_id=chat_id, photo=open(os.path.join(root, name), 'rb'))
-            #уберите комментарий следующей строки, чтобы автоматически удалять фотки после отправки, чтобы не засорять папку (фотки немаленькие)
-            #os.remove(os.path.join(root, name))
+DELETE_AFTER_PUBLISH=False
 ```
 
 ### Запуск кода:
