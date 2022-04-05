@@ -9,9 +9,6 @@ from dotenv import load_dotenv
 from pathlib import Path
 from urllib.parse import urlparse
 
-SPACEX_API_URL = "https://api.spacexdata.com/v4/launches/latest"
-NASA_APOD_API_URL = "https://api.nasa.gov/planetary/apod"
-
 
 def publish_text_to_channel(text: str, chat_id: str, token: str):
     bot = telegram.Bot(token=token)
@@ -36,7 +33,8 @@ def get_extension(url: str) -> str:
 def fetch_spacex_last_launch(path: str):
 
     def get_latest_launch_photo_urls():
-        response = requests.get(SPACEX_API_URL)
+        spacex_api_url = "https://api.spacexdata.com/v4/launches/latest"
+        response = requests.get(spacex_api_url)
         response.raise_for_status()
         latest_launch_dict: dict = response.json()
         return latest_launch_dict['links']['flickr']['original']
@@ -56,7 +54,7 @@ def fetch_spacex_last_launch(path: str):
 def get_nasa_apod_photo(path: str, token: str):
 
     def get_nasa_apod_photo_urls():
-        api_url = NASA_APOD_API_URL
+        api_url = "https://api.nasa.gov/planetary/apod"
         payload = {
             "api_key": token,
             "count": 5
