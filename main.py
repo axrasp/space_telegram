@@ -51,8 +51,8 @@ def fetch_spacex_last_launch(path: str):
         spacex_api_url = "https://api.spacexdata.com/v4/launches/latest"
         response = requests.get(spacex_api_url)
         response.raise_for_status()
-        latest_launch_dict: dict = response.json()
-        return latest_launch_dict['links']['flickr']['original']
+        latest_launch: dict = response.json()
+        return latest_launch['links']['flickr']['original']
 
     for count, url in enumerate(get_latest_launch_photo_urls()):
         file_name = f'spacex{count}.jpg'
@@ -69,9 +69,9 @@ def get_nasa_apod_photo(path: str, token: str):
         }
         response = requests.get(api_url, params=payload)
         response.raise_for_status()
-        nasa_apod_response_dict: dict = response.json()
+        nasa_apod_response: dict = response.json()
         nasa_apod_photo_urls = []
-        for photos_data in nasa_apod_response_dict:
+        for photos_data in nasa_apod_response:
             print(photos_data)
             nasa_apod_photo_urls.append(photos_data["url"])
         return nasa_apod_photo_urls
@@ -90,11 +90,11 @@ def get_epic_nasa_photo(path: str, token: str):
         }
         response = requests.get(api_url, params=payload)
         response.raise_for_status()
-        photo_dict = {}
-        nasa_apod_response_dict: dict = response.json()
-        for keys in nasa_apod_response_dict:
-            photo_dict[keys["image"]] = datetime.datetime.fromisoformat(keys["date"]).strftime("%Y/%m/%d")
-        return photo_dict
+        photos_name_date = {}
+        nasa_apod_response: dict = response.json()
+        for keys in nasa_apod_response:
+            photos_name_date[keys["image"]] = datetime.datetime.fromisoformat(keys["date"]).strftime("%Y/%m/%d")
+        return photos_name_date
 
     for photo_name, date in get_epic_photo_data().items():
         file_name = f"{photo_name}.png"
