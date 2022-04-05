@@ -6,7 +6,6 @@ import telegram
 import random
 
 
-
 from dotenv import load_dotenv
 from pathlib import Path
 from urllib.parse import urlparse
@@ -25,8 +24,8 @@ def publish_photo_to_channel(path: str, chat_id: str, token: str, delete_photo: 
             photos_path.append(os.path.join(root, name))
     with open(random.choice(photos_path), 'rb') as photo:
         bot.send_photo(chat_id=chat_id, photo=photo)
-    if delete_photo:
-        os.remove(os.path.join(root, name))
+        if delete_photo:
+            os.remove(photo)
 
 
 def save_photo(path: str, url: str, token:str, file_name: str):
