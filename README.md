@@ -21,14 +21,14 @@ pip install -r requirements.txt
 Вы получите токен вида: ``sHMo00RbYXY2hVCqs8t3GFaQDoFLij4EA8DPgpbR``
 Создайте файл .env в корневой папке и положите туда переменную с полученным токеном
 ```python
-NASA_API_KEY = "sHMo00RbYXY2hVCqs8t3GFaQDoFLij4EA8DPgpbR"
+NASA_API_KEY="sHMo00RbYXY2hVCqs8t3GFaQDoFLij4EA8DPgpbR"
 ```
 
 Для изменения пути размещения папки с EPIC-фото NASA (и фотогарфий APOD), поменяйте значение переменной ``EPIC_FILE_PATH`` на другой путь, также добавьте файл с указанием пути к папке с изображениями:
 ```python
-IMAGE_FOLDER = "images"
-EPIC_FILE_PATH = "images/epic"
-NASA_APOD_PATH = "images/apod"
+IMAGE_FOLDER="images"
+EPIC_FILE_PATH="images/epic"
+NASA_APOD_PATH="images/apod"
 ```
 
 **ВНИМАНИЕ** 
@@ -39,25 +39,25 @@ NASA_APOD_PATH = "images/apod"
 Для этого создайте бота в ``https://t.me/botfather``
 Полученный токен положите файл ``.env`` в переменную:
 ```python
-BOT_API = "5182241323:AAGmG0IOGu2CrUl6zpvvhjjkChf95mSWwb0"
+BOT_API="5182241323:AAGmG0IOGu2CrUl6zpvvhjjkChf95mSWwb0"
 ```
 
 Бота необходимо сделать администратором канала, в который вы хотите отправлять сообщение.
 Название канала необходимо положить в ``.env`` в переменную: 
 ```python
-CHAT_ID = "@spaace_tg"
+CHAT_ID="@spaace_tg"
 ```
 
 ### Другие настройки
 
 Текст сообщения лежит в ``.env`` в переменной:
 ```python
-MESSAGE = "Hello"
+MESSAGE="Hello"
 ```
 
 По умолчанию публикация идет каждые 24 часа. Настройка таймера постинга в
 ```python
-TIMER = 86400
+TIMER=86400
 ```
 
 **ВНИМАНИЕ**
