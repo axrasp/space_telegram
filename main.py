@@ -13,23 +13,18 @@ SPACEX_API_URL = "https://api.spacexdata.com/v4/launches/latest"
 NASA_APOD_API_URL = "https://api.nasa.gov/planetary/apod"
 
 
-def publish_text_to_channel(text: str):
-    telegram_token = os.getenv("BOT_API")
-    chat_id = os.getenv("CHAT_ID")
-    bot = telegram.Bot(token=telegram_token)
+def publish_text_to_channel(text: str, chat_id: str, token: str):
+    bot = telegram.Bot(token=token)
     bot.send_message(chat_id=chat_id, text=text)
 
 
-def publish_photo_to_channel(path: str):
-    telegram_token = os.getenv("BOT_API")
-    chat_id = os.getenv("CHAT_ID")
-    bot = telegram.Bot(token=telegram_token)
+def publish_photo_to_channel(path: str, chat_id: str, token: str, delete_photo: bool):
+    bot = telegram.Bot(token=token)
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:
-            # Отправляем фотки по одной
             bot.send_photo(chat_id=chat_id, photo=open(os.path.join(root, name), 'rb'))
-            # Уберите комментарий следующей строки, чтобы автоматически удалять фотки после отправки, чтобы не засорять папку (фотки немаленькие)
-            # os.remove(os.path.join(root, name))
+            if delete_photo:
+                os.remove(os.path.join(root, name))
 
 
 def get_extension(url: str) -> str:
@@ -118,6 +113,9 @@ def get_epic_nasa_photo(path: str, token: str):
 
 
 def main():
+    chat_id = os.getenv("CHAT_ID")
+    telegram_token = os.getenv("BOT_API")
+    delete_photo = os.getenv("DELETE_AFTER_SEND")
     nasa_api_key = os.getenv("NASA_API_KEY")
     nasa_apod_image_path = os.getenv("NASA_APOD_PATH")
     image_folder = os.getenv("IMAGE_FOLDER")
@@ -129,8 +127,8 @@ def main():
         fetch_spacex_last_launch(path=image_folder)
         get_nasa_apod_photo(path=nasa_apod_image_path, token=nasa_api_key)
         get_epic_nasa_photo(path=epic_file_path, token=nasa_api_key)
-        publish_text_to_channel(text=message)
-        publish_photo_to_channel(path=image_folder)
+        publish_text_to_channel(text=message, chat_id=chat_id, token=telegram_token)
+        publish_photo_to_channel(path=image_folder, chat_id=chat_id, token=telegram_token, delete_photo=delete_photo)
         time.sleep(int(delay))
 
 
