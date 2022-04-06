@@ -22,7 +22,6 @@ def publish_photo_to_channel(path: str, chat_id: str, token: str):
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:
             photos_path.append(os.path.join(root, name))
-            print(photos_path)
     random_photo_url = random.choice(photos_path)
     with open(random_photo_url, 'rb') as photo:
         bot.send_photo(chat_id=chat_id, photo=photo)
@@ -78,7 +77,6 @@ def get_nasa_apod_photo_urls(token: str):
     nasa_apod_response: dict = response.json()
     nasa_apod_photo_urls = []
     for photos_data in nasa_apod_response:
-        print(photos_data)
         nasa_apod_photo_urls.append(photos_data["url"])
     return nasa_apod_photo_urls
 
