@@ -62,7 +62,7 @@ TIMER=86400
 
 Для удаления фотографии из папки после публикации есть настройка 
 ```python
-DELETE_AFTER_PUBLISH=False
+DELETE_AFTER_SEND=False
 ```
 
 ### Запуск кода:

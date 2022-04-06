@@ -126,7 +126,7 @@ def main():
     load_dotenv()
     chat_id = os.getenv("CHAT_ID")
     telegram_token = os.getenv("BOT_API")
-    delete_images = bool(os.getenv("DELETE_AFTER_SEND"))
+    delete_images = os.getenv("DELETE_AFTER_SEND", 'False').lower() in ('true', '1', 't')
     nasa_api_key = os.getenv("NASA_API_KEY")
     nasa_apod_image_path = os.getenv("NASA_APOD_PATH")
     image_folder = os.getenv("IMAGE_FOLDER")
