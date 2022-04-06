@@ -24,11 +24,13 @@ pip install -r requirements.txt
 NASA_API_KEY="sHMo00RbYXY2hVCqs8t3GFaQDoFLij4EA8DPgpbR"
 ```
 
-Для изменения пути размещения папки с EPIC-фото NASA (и фотогарфий APOD), поменяйте значение переменной ``EPIC_FILE_PATH`` на другой путь, также добавьте файл с указанием пути к папке с изображениями:
+Для изменения пути размещения папки с EPIC-фото NASA (и фотогарфий APOD, SpaceX), поменяйте значение переменной ``EPIC_FILE_PATH`` на другой путь, также добавьте файл с указанием пути к папке с изображениями:
 ```python
 IMAGE_FOLDER="images"
+SPACEX_IMAGE_FOLDER="images/spacex"
 EPIC_FILE_PATH="images/epic"
 NASA_APOD_PATH="images/apod"
+
 ```
 
 **ВНИМАНИЕ** 
