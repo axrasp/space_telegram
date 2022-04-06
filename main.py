@@ -22,6 +22,7 @@ def publish_photo_to_channel(path: str, chat_id: str, token: str):
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:
             photos_path.append(os.path.join(root, name))
+            print(photos_path)
     random_photo_url = random.choice(photos_path)
     with open(random_photo_url, 'rb') as photo:
         bot.send_photo(chat_id=chat_id, photo=photo)
@@ -34,7 +35,6 @@ def delete_photo(path: str, delete_photo: bool):
 
 
 def save_photo(path: str, url: str, token: str, file_name: str):
-    Path(path).mkdir(parents=True, exist_ok=True)
     payload = {
         "api_key": token
     }
@@ -128,13 +128,17 @@ def main():
     telegram_token = os.getenv("BOT_API")
     delete_images = os.getenv("DELETE_AFTER_SEND", 'False').lower() in ('true', '1', 't')
     nasa_api_key = os.getenv("NASA_API_KEY")
-    nasa_apod_image_path = os.getenv("NASA_APOD_PATH")
     image_folder = os.getenv("IMAGE_FOLDER")
+    nasa_apod_image_path = os.getenv("NASA_APOD_PATH")
+    spacex_image_folder = os.getenv("SPACEX_IMAGE_FOLDER")
     epic_file_path = os.getenv("EPIC_FILE_PATH")
     message = os.getenv("MESSAGE")
     delay = os.getenv("TIMER")
+    Path(spacex_image_folder).mkdir(parents=True, exist_ok=True)
+    Path(epic_file_path).mkdir(parents=True, exist_ok=True)
+    Path(nasa_apod_image_path).mkdir(parents=True, exist_ok=True)
     while True:
-        fetch_spacex_last_launch(path=image_folder)
+        fetch_spacex_last_launch(path=spacex_image_folder)
         get_nasa_apod_photo(path=nasa_apod_image_path, token=nasa_api_key)
         get_epic_nasa_photo(path=epic_file_path, token=nasa_api_key)
         publish_text_to_channel(text=message, chat_id=chat_id, token=telegram_token)
