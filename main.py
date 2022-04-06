@@ -29,11 +29,6 @@ def publish_photo_to_channel(path: str, chat_id: str, token: str):
     return random_photo_url
 
 
-def delete_photo(path: str, delete_photo: bool):
-    if delete_photo:
-        os.remove(path)
-
-
 def save_photo(path: str, url: str, token: str, file_name: str):
     payload = {
         "api_key": token
@@ -65,13 +60,11 @@ def save_spacex_photo(photo_urls: str, path: str):
 
 
 def fetch_spacex_last_launch(path: str):
-    photo_urls = get_latest_launch_photo_urls()
-    save_spacex_photo(photo_urls=photo_urls, path=path)
+    save_spacex_photo(photo_urls=get_latest_launch_photo_urls(), path=path)
 
 
 def get_nasa_apod_photo(path: str, token: str):
-    photo_urls = get_nasa_apod_photo_urls(token=token)
-    save_nasa_apod_photo(photo_urls=photo_urls, path=path)
+    save_nasa_apod_photo(photo_urls=get_nasa_apod_photo_urls(token=token), path=path)
 
 
 def get_nasa_apod_photo_urls(token: str):
@@ -97,8 +90,7 @@ def save_nasa_apod_photo(photo_urls, path: str):
 
 
 def get_epic_nasa_photo(path: str, token: str):
-    photo_name_date = get_epic_photo_urls(token=token)
-    save_epic_photos(photos_name_date=photo_name_date, path=path, token=token)
+    save_epic_photos(photos_name_date=get_epic_photo_urls(token=token), path=path, token=token)
 
 
 def get_epic_photo_urls(token: str):
@@ -143,7 +135,8 @@ def main():
         get_epic_nasa_photo(path=epic_file_path, token=nasa_api_key)
         publish_text_to_channel(text=message, chat_id=chat_id, token=telegram_token)
         photo_to_delete = publish_photo_to_channel(path=image_folder, chat_id=chat_id, token=telegram_token)
-        delete_photo(path=photo_to_delete, delete_photo=delete_images)
+        if delete_images:
+            os.remove(photo_to_delete)
         time.sleep(int(delay))
 
 
