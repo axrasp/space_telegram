@@ -58,14 +58,6 @@ def save_spacex_photo(photo_urls: str, path: str):
         save_photo(path=path, url=url, token="", file_name=file_name)
 
 
-def fetch_spacex_last_launch(path: str):
-    save_spacex_photo(photo_urls=get_latest_launch_photo_urls(), path=path)
-
-
-def get_nasa_apod_photo(path: str, token: str):
-    save_nasa_apod_photo(photo_urls=get_nasa_apod_photo_urls(token=token), path=path)
-
-
 def get_nasa_apod_photo_urls(token: str):
     api_url = "https://api.nasa.gov/planetary/apod"
     payload = {
@@ -85,10 +77,6 @@ def save_nasa_apod_photo(photo_urls, path: str):
     for url in photo_urls:
         file_name = os.path.basename(urlparse(url).path)
         save_photo(path=path, token="", url=url, file_name=file_name)
-
-
-def get_epic_nasa_photo(path: str, token: str):
-    save_epic_photos(photos_name_date=get_epic_photo_urls(token=token), path=path, token=token)
 
 
 def get_epic_photo_urls(token: str):
@@ -128,9 +116,9 @@ def main():
     Path(epic_file_path).mkdir(parents=True, exist_ok=True)
     Path(nasa_apod_image_path).mkdir(parents=True, exist_ok=True)
     while True:
-        fetch_spacex_last_launch(path=spacex_image_folder)
-        get_nasa_apod_photo(path=nasa_apod_image_path, token=nasa_api_key)
-        get_epic_nasa_photo(path=epic_file_path, token=nasa_api_key)
+        save_spacex_photo(photo_urls=get_latest_launch_photo_urls(), path=spacex_image_folder)
+        save_nasa_apod_photo(photo_urls=get_nasa_apod_photo_urls(token=nasa_api_key), path=nasa_apod_image_path)
+        save_epic_photos(photos_name_date=get_epic_photo_urls(token=nasa_api_key), path=epic_file_path, token=nasa_api_key)
         publish_text_to_channel(text=message, chat_id=chat_id, token=telegram_token)
         photo_to_delete = publish_photo_to_channel(path=image_folder, chat_id=chat_id, token=telegram_token)
         if delete_images:
